@@ -1,17 +1,18 @@
+import json
 from model.request import Request
 
 
-def _is_header_valid(request_header: dict) -> bool:
-    if request_header is None:
+def _is_header_valid(request_context: dict) -> bool:
+    if request_context is None:
         return False
 
-    if 'probeName' not in request_header:
+    if 'id' not in request_context or request_context['id'] == "":
         return False
 
-    if 'reportId' not in request_header:
+    if 'name' not in request_context or request_context['name'] == "":
         return False
 
-    if 'probeId' not in request_header:
+    if 'target' not in request_context or request_context['target'] == "":
         return False
 
     return True
@@ -20,14 +21,15 @@ def _is_request_valid(request: dict) -> bool:
     if request is None:
         return False
 
-    if not _is_header_valid(request['header']):
+    if not _is_header_valid(request['context']):
         return False
 
     return True
 
 
 def parse_request(request: dict) -> Request:
-    if not _is_request_valid(request):
+    json_request = json.loads(request)
+    if not _is_request_valid(json_request):
         raise Exception("Invalid request")
 
-    return Request(request)
+    return Request(json_request)
