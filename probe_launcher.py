@@ -29,7 +29,10 @@ def _build_probe_env_variables(probe_request: Request):
         "MONGO_COLLECTION": os.getenv("MONGO_COLLECTION")
     }
 
-    return probe_request.settings | more_settings
+    try:
+        return probe_request.settings | more_settings
+    except:
+        return more_settings
 
 def handle_probe_start_request(probe_request: Request):
     try:
