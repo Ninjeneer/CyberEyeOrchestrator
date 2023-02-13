@@ -46,6 +46,8 @@ def handle_probe_start_request(probe_request: Request):
             image=_probe_name_to_image(probe_request.name),
             name=_build_container_name(probe_request),
             environment=_build_probe_env_variables(probe_request),
+            stderr=True,
+            stdout=True
         )
     except Exception as e:
         print("===========\nERROR : ", end="")
