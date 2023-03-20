@@ -9,9 +9,7 @@ def _build_container_name(request: Request):
     return "{}_{}".format(request.name, request.id)
 
 def _probe_name_to_image(name: str):
-    return {
-        "probe-nmap": "ninjeneer/probe-nmap"
-    }[name]
+    return "{}:{}".format(os.getenv("DOCKER_IMAGE_REPO"), name)
 
 def _build_probe_env_variables(probe_request: Request):
     more_settings = {

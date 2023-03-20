@@ -21,7 +21,7 @@ def _is_request_valid(request: dict) -> bool:
     if request is None:
         return False
 
-    if not _is_header_valid(request['context']):
+    if 'context' in request and not _is_header_valid(request['context']):
         return False
 
     return True
