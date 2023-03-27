@@ -45,7 +45,8 @@ def handle_probe_start_request(probe_request: Request):
             name=_build_container_name(probe_request),
             environment=_build_probe_env_variables(probe_request),
             stderr=True,
-            stdout=True
+            stdout=True,
+            network="host"
         )
     except Exception as e:
         print("===========\nERROR : ", end="")
