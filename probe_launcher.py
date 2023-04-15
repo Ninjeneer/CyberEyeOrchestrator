@@ -1,4 +1,5 @@
 from sys import stderr
+import traceback
 import docker
 import os
 
@@ -24,7 +25,10 @@ def _build_probe_env_variables(probe_request: Request):
         
         "MONGO_URL": os.getenv('MONGO_URL'),
         "MONGO_DB": os.getenv("MONGO_DB"),
-        "MONGO_COLLECTION": os.getenv("MONGO_COLLECTION")
+        "MONGO_COLLECTION": os.getenv("MONGO_COLLECTION"),
+
+        "SUPABASE_URL": os.getenv("SUPABASE_URL"),
+        "SUPABASE_KEY": os.getenv("SUPABASE_KEY"),
     }
 
     try:
@@ -46,8 +50,9 @@ def handle_probe_start_request(probe_request: Request):
             environment=_build_probe_env_variables(probe_request),
             stderr=True,
             stdout=True,
-            network="host"
+            network="host",
+            detach=True
         )
-    except Exception as e:
+    except Exception:
         print("===========\nERROR : ", end="")
-        print(e.with_traceback(), file=stderr)
+        print(traceback.format_exc())
