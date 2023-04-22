@@ -2,12 +2,13 @@ from sys import stderr
 import traceback
 import docker
 import os
+import uuid
 
 from model.request import Request
 from request_parser import parse_request
 
 def _build_container_name(request: Request):
-    return "{}_{}".format(request.name, request.id)
+    return "{}_{}_{}".format(request.name, request.id, uuid.uuid4())
 
 def _probe_name_to_image(name: str):
     return "{}:{}".format(os.getenv("DOCKER_IMAGE_REPO"), name)
